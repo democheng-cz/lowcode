@@ -1,0 +1,35 @@
+{
+	"name": "lowCode",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prepare": "husky",
+		"commit": "git-cz",
+		"dev:front": "pnpm --filter @lowcode/client  dev",
+		"dev:serve": "pnpm --filter @lowCode/serve start:dev",
+		"dev": "pnpm run dev:front & pnpm run dev:serve"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.13.1",
+	"devDependencies": {
+		"@commitlint/cli": "^20.2.0",
+		"@commitlint/config-conventional": "^20.2.0",
+		"commitizen": "^4.3.1",
+		"cz-git": "^1.12.0",
+		"eslint": "link:@antfu\\eslint",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
+		"typescript": "^5.9.3",
+		"@types/node": "^22.10.7",
+		"prettier": "^3.4.2"
+	},
+	"config": {
+		"commitizen": {
+			"path": "node_modules/cz-git"
+		}
+	}
+}
