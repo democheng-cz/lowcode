@@ -3,3 +3,5 @@ pnpm-lock.yaml
 src/example/locales
 dist
 .vscode
+packages/*/node_modules
+packages/*/dist
