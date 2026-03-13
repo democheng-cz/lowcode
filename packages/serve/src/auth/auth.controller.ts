@@ -19,4 +19,10 @@ export class AuthController {
   getCaptcha(@Query('type') type: 'login' | 'register') {
     return this.authService.getCaptcha(type);
   }
+
+  @Post('sendCode')
+  sendCode(@Body() body: { phone: string; type: 'login' | 'register' }) {
+    const { phone, type } = body;
+    return this.authService.sendCode(phone, type);
+  }
 }
