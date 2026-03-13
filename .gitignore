@@ -5,3 +5,4 @@ dist
 .vscode
 packages/*/node_modules
 packages/*/dist
+packages/serve/dist

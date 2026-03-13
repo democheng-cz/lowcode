@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Get, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
-
+import {} from './entities/auth.entity';
+import { CreateAuthDto, GetCaptchaDto, SendCodeDto } from './dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -11,18 +12,18 @@ export class AuthController {
   }
 
   @Post('register')
-  register(@Body() body: { username: string; password: string }) {
-    return '';
+  async register(@Body() createAuthDto: CreateAuthDto) {
+    return await this.authService.register(createAuthDto);
   }
 
   @Get('captcha')
-  getCaptcha(@Query('type') type: 'login' | 'register') {
-    return this.authService.getCaptcha(type);
+  getCaptcha(@Query() dto: GetCaptchaDto) {
+    return this.authService.getCaptcha(dto.type);
   }
 
   @Post('sendCode')
-  sendCode(@Body() body: { phone: string; type: 'login' | 'register' }) {
-    const { phone, type } = body;
+  sendCode(@Body() dto: SendCodeDto) {
+    const { phone, type } = dto;
     return this.authService.sendCode(phone, type);
   }
 }

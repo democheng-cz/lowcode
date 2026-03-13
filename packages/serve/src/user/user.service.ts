@@ -10,11 +10,14 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
   async create(createUserDto: CreateUserDto) {
-    await this.userRepository.save(createUserDto);
-    return {
-      status: 200,
-      message: '用户创建成功',
-    };
+    try {
+      await this.userRepository.save(createUserDto);
+      return {
+        message: '用户创建成功',
+      };
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
   }
 
   async findAll() {

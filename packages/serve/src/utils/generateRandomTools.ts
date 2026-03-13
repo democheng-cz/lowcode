@@ -8,4 +8,11 @@ export class GenerateRandomTools {
       .toString(10)
       .substring(2, 2 + length);
   }
+
+  // 生成随机字符名称
+  generateRandomName(length: number = 10) {
+    return Math.random()
+      .toString(36)
+      .substring(2, 2 + length);
+  }
 }
