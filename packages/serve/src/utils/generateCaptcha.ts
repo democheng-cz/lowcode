@@ -1,15 +1,14 @@
 // 生成图形验证码
 import { Injectable } from '@nestjs/common';
-import createSvgCaptcha from 'svg-captcha';
+import { create } from 'svg-captcha';
+import type { CaptchaObj } from 'svg-captcha';
+
 @Injectable()
 export class GenerateCaptcha {
-  generateCaptcha() {
-    return createSvgCaptcha.create({
+  generateCaptcha(): CaptchaObj {
+    return create({
       size: 4,
       color: true,
-      ignoreChars: '0o1i',
-      background: '#f0f0f0',
-      fontSize: 24,
     });
   }
 }
