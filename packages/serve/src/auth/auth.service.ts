@@ -7,8 +7,9 @@ import { SecretTool } from '../utils/secretTool';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto, LoginAuthDto } from './dto';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -93,5 +94,33 @@ export class AuthService {
     } catch (error) {
       throw new Error((error as Error).message);
     }
+  }
+
+  // 登录、
+  async login(loginAuthDto: LoginAuthDto) {
+    const { phone, captcha, type, password } = loginAuthDto;
+
+    // 从redis中获取图形验证码
+    const redisCaptchaKey = `captcha:${type}:${captcha}`;
+    const redisCaptchaCode = await this.redisService
+      .getClient()
+      .get(redisCaptchaKey);
+    if (!redisCaptchaCode) throw new Error('图形验证码已过期');
+    if (redisCaptchaCode !== captcha) throw new Error('图形验证码不正确');
+
+    // 查找当前用户是否已经存在
+    const user = await this.userRepository.findOne({
+      where: {
+        phone,
+      },
+    });
+    if (!user) throw new Error('用户不存在');
+    // 校验密码
+    const secretPassword = this.SecretTool.encrypt(password);
+    if (user.password !== secretPassword) throw new Error('密码不正确');
+
+    return {
+      message: '登录成功',
+    };
   }
 }
