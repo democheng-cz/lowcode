@@ -96,7 +96,7 @@ export class AuthService {
     }
   }
 
-  // 登录、
+  // 登录
   async login(loginAuthDto: LoginAuthDto) {
     const { phone, captcha, type, password } = loginAuthDto;
 
