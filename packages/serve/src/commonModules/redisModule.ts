@@ -1,15 +1,19 @@
-import { Module, Global } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
-import { redisConfig } from '../database.config';
+
+import { getRedisConfig } from '../database.config';
 import { RedisService } from './redis.service';
 
 @Global()
 @Module({
+  imports: [ConfigModule],
   providers: [
     {
       provide: RedisService,
-      useFactory: () => {
-        const client = new Redis(redisConfig);
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const client = new Redis(getRedisConfig(configService));
         return new RedisService(client);
       },
     },

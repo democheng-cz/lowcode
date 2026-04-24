@@ -7,11 +7,22 @@ import {
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import type { Request } from 'express';
 
-export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
+type ResponseBody<T> = {
+  code: number;
+  message: string;
+  data: T;
+  timestamp: number;
+  path: string;
+};
+
+export class ResponseInterceptor<T> implements NestInterceptor<
+  T,
+  ResponseBody<T>
+> {
   intercept(
     context: ExecutionContext,
-    next: CallHandler<any>,
-  ): Observable<any> | Promise<Observable<any>> {
+    next: CallHandler<T>,
+  ): Observable<ResponseBody<T>> | Promise<Observable<ResponseBody<T>>> {
     // 请求开始时间
     const startTime = performance.now();
 
@@ -25,7 +36,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
         const duration = performance.now() - startTime;
         console.log(`[Response] ${method} ${url} ${duration}ms`);
       }),
-      map((data: any) => {
+      map((data: T) => {
         return {
           code: 0,
           message: 'success',

@@ -84,7 +84,8 @@ export class AuthService {
       password: this.SecretTool.encrypt(password),
     };
     // 去除createUserDto中的password
-    const { password: _, ...userData } = createUserDto;
+    const { password: omittedPassword, ...userData } = createUserDto;
+    void omittedPassword;
     try {
       await this.userRepository.save(createUserDto);
       return {

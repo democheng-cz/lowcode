@@ -1,34 +1,47 @@
 {
-	"name": "lowCode",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"prepare": "husky",
-		"commit": "git-cz",
-		"dev:front": "pnpm --filter @lowcode/client  dev",
-		"dev:serve": "pnpm --filter @lowCode/serve start:dev",
-		"dev": "pnpm run dev:front & pnpm run dev:serve"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"packageManager": "pnpm@10.13.1",
-	"devDependencies": {
-		"@commitlint/cli": "^20.2.0",
-		"@commitlint/config-conventional": "^20.2.0",
-		"commitizen": "^4.3.1",
-		"cz-git": "^1.12.0",
-		"eslint": "link:@antfu\\eslint",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.2.7",
-		"typescript": "^5.9.3",
-		"@types/node": "^22.10.7"
-	},
-	"config": {
-		"commitizen": {
-			"path": "node_modules/cz-git"
-		}
-	}
+  "name": "lowCode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky",
+    "commit": "git-cz",
+    "dev:front": "pnpm --filter @lowcode/client dev",
+    "dev:serve": "pnpm --filter @lowcode/serve start:dev",
+    "dev": "pnpm exec concurrently -k -n front,serve \"pnpm run dev:front\" \"pnpm run dev:serve\"",
+    "lint:front": "pnpm --filter @lowcode/client lint",
+    "lint:serve": "pnpm --filter @lowcode/serve lint",
+    "lint": "pnpm run lint:front && pnpm run lint:serve",
+    "typecheck:front": "pnpm --filter @lowcode/client typecheck",
+    "typecheck:serve": "pnpm --filter @lowcode/serve typecheck",
+    "typecheck": "pnpm run typecheck:front && pnpm run typecheck:serve",
+    "format": "pnpm exec prettier --write .",
+    "test": "pnpm --filter @lowcode/serve test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
+    "@types/node": "^22.10.7",
+    "commitizen": "^4.3.1",
+    "concurrently": "^9.2.1",
+    "cspell": "^10.0.0",
+    "cz-git": "^1.12.0",
+    "eslint": "^9.39.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.3",
+    "typescript": "^5.9.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    }
+  }
 }
